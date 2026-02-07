@@ -1,0 +1,16 @@
+sqlalchemy
+pydantic
+starlette
+fastapi
+uvicorn
+passlib
+bcrypt
+google-auth-oauthlib
+google-api-python-client
+python-dotenv
+html2text
+ftfy
+email-reply-parser
+pandas
+scikit-learn
+transformers
