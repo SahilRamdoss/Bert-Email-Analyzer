@@ -9,11 +9,11 @@ class EmailExtractor:
         self._token_path = token_path
         self._scope = scope
 
-    def get_email_service(self):
+    def _get_email_service(self):
         creds = Credentials.from_authorized_user_file(self._token_path, self._scope)
         return build("gmail", "v1", credentials=creds)
 
-    def extract_body(self,payload):
+    def _extract_body(self,payload):
         html_parts = []
         text_parts = []
 
@@ -51,13 +51,20 @@ class EmailExtractor:
             "preferred": "text/html" if html else "text/plain" if text else None
         }
 
+    def _get_gmail_account_email(self):
+        service = self._get_email_service()
+        profile = service.users().getProfile(userId="me").execute()
+        return profile["emailAddress"]  
+    
     def get_unread_emails(self):
-        service = self.get_email_service()
+        service = self._get_email_service()
 
         results = service.users().messages().list(
             userId="me",
             q="is:unread"
         ).execute()
+
+        user_email = self._get_gmail_account_email()
 
         messages = results.get("messages", [])
 
@@ -76,11 +83,12 @@ class EmailExtractor:
             receiver = next((h["value"] for h in headers if h["name"] == "To"), None)
             date = next((h["value"] for h in headers if h["name"] == "Date"), None)
             cc = next((h["value"] for h in headers if h["name"] == "Cc"), None)
-            body = self.extract_body(msg_data["payload"])
+            body = self._extract_body(msg_data["payload"])
             
             emails_data.append(
                 {
                     "id": id,
+                    "user": user_email,
                     "subject": subject,
                     "sender": sender,
                     "receiver": receiver,

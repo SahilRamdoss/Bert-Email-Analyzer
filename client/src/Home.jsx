@@ -54,7 +54,13 @@ export default function Home() {
             <div className="relative w-full h-full bg-(--tertiary-color) p-2 flex flex-col justify-start items-center">
                 {/* This is the top banner*/}
                 <div className="bg-(--secondary-color) w-full h-12 flex justify-end items-center">
-                    <div className="text-white font-bold">Udhay Ramdoss</div>
+                    <div className="text-white font-bold">
+                        {emails.length > 0 ?
+                            emails[0]["user"]
+                            :
+                            "User"
+                        }
+                    </div>
                     <div className="ps-2 pe-2">
                         <img src={User_Icon} />
                     </div>
@@ -64,14 +70,14 @@ export default function Home() {
                     <div className="loader">
                         <div className="loader-subcontainer">
                             <div className="spinner">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                        <div className="text-white mt-3">Loading...</div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <div className="text-white mt-3">Loading...</div>
                         </div>
                     </div>
                     :
