@@ -28,12 +28,12 @@ Then run the line of code below to install the remaining dependencies:
 
 > pip install -r requirements.txt
 
-> [!NOTE]
-> The trained AI model itself is not included in the repository. Feel free to train and use your own models if you like to test it!
-
 To run the backend, execute the line of code below:
 
 > fastapi dev GMAIL_API/api.py
+
+> [!NOTE]
+> The trained AI model itself is not included in the repository. Feel free to train and use your own models if you like to test it!
 
 > [!NOTE]
 > Make sure your GMAIL account enables its GMAIL API on the Google Cloud console website.
