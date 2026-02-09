@@ -1,3 +1,30 @@
+# Setting up and running the project
+
+## Setting up Frontend
+
+The frontend has been setup using React using the Vite build tool. Make sure you have NodeJS installed on your device.
+
+Run the lines of code below to install the necessary dependencies:
+
+> npm install dompurify axios react-tooltip
+
+For routing, run the line:
+
+> npm install react-router-dom
+
+## Setting up the Backend
+
+First, set up PyTorch on your device following the official documentation (https://pytorch.org/get-started/locally/). 
+
+Then run the line of code below to install the remaining dependencies (open the server folder in a seperate VS code terminal):
+
+> pip install -r requirements.txt
+
+> [!NOTE]
+> The trained AI model itself is not included in the repository. Feel free to train and use your own models if you like to test it!
+
+---
+
 # My Learning Journey
 
 ## Introduction
@@ -90,6 +117,6 @@ FastAPI was used as the backend framework, to allow for API calls from the front
 
 ## Frontend connection + HTML emails handling
 
-Finally, the frontend is created and connected to the backend to fetch the emails. However, a clear distinction had to be made between text emails and html emails. HTML emails have to maintain their format and styling when displayed on the frontend. For that purpose, the DOMPurify library had to be used in the frontend, in conjuction with BeatifulSoup in the backend.
+Finally, the frontend is created and connected to the backend to fetch the emails. However, a clear distinction had to be made between text emails and html emails. HTML emails have to maintain their format and styling when displayed on the frontend. For that purpose, the *DOMPurify* library had to be used in the frontend, in conjuction with *BeatifulSoup* in the backend.
 
 The Frontend is created using React and Tailwind.
