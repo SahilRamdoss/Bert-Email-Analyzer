@@ -1,8 +1,10 @@
 # Setting up and running the project
 
-## Setting up Frontend
+## Setting up and running Frontend
 
 The frontend has been setup using React using the Vite build tool. Make sure you have NodeJS installed on your device.
+
+Open the client folder in a seperate VS code window.
 
 Run the lines of code below to install the necessary dependencies:
 
@@ -12,16 +14,36 @@ For routing, run the line:
 
 > npm install react-router-dom
 
-## Setting up the Backend
+To run the frontend, execute the line of code below:
 
-First, set up PyTorch on your device following the official documentation (https://pytorch.org/get-started/locally/). 
+> npm run dev
 
-Then run the line of code below to install the remaining dependencies (open the server folder in a seperate VS code terminal):
+## Setting up and running the Backend
+
+Open the server folder in a separate VS code window.
+
+Set up PyTorch on your device following the official documentation (https://pytorch.org/get-started/locally/). 
+
+Then run the line of code below to install the remaining dependencies:
 
 > pip install -r requirements.txt
 
 > [!NOTE]
 > The trained AI model itself is not included in the repository. Feel free to train and use your own models if you like to test it!
+
+To run the backend, execute the line of code below:
+
+> fastapi dev GMAIL_API/api.py
+
+> [!NOTE]
+> Make sure your GMAIL account enables its GMAIL API on the Google Cloud console website.
+> The website contains the necessary steps to enable this.
+>
+> Once done, run the line of code below to connect to your inbox and create your token:
+>
+> ```bash
+> python gmail_auth.py
+> ```
 
 ---
 
