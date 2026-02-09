@@ -6,7 +6,7 @@ The frontend has been setup using React using the Vite build tool. Make sure you
 
 Run the lines of code below to install the necessary dependencies:
 
-> npm install dompurify axios react-tooltip
+> npm install dompurify axios react-tooltip tailwindcss @tailwindcss/vite
 
 For routing, run the line:
 
@@ -73,7 +73,7 @@ Text normalization is important as it:
 
 ## My Pipeline for Pre-processing
 
-This is the pipeline that will be implemented to prepare the data to be fed to the model. For now, we will concentrate on text data from the emails only.
+This is the pipeline that will be implemented to prepare the data to be fed to the model. We will concentrate on text data from the emails as these usually carry the most weight in determining the urgency of an email.
 
 0) Convert HTML email bodies to plain text - html2text
 1) Fix broken Unicode, smart quotes, mojibake - ftfy
@@ -113,7 +113,7 @@ Code to fetch unread emails from our GMAIL account was written. The emails were 
 
 > Fetch unread emails from GMAIL account -> Normalize emails to the JSON schema -> Preprocess the emails -> Feed the cleaned emails to model -> Sort emails by urgency -> Send to frontend
 
-FastAPI was used as the backend framework, to allow for API calls from the frontend.
+*FastAPI* was used as the backend framework, to allow for API calls from the frontend.
 
 ## Frontend connection + HTML emails handling
 
