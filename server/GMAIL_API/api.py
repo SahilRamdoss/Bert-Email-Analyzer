@@ -60,20 +60,3 @@ def main():
     raw_emails = email_preprocessor.normalize_email_body(raw_emails)
 
     return raw_emails
-
-    # with open("data/emails_json_val_data.json", "r", encoding="utf-8") as file:
-    #     data = json.load(file)
-
-    # preprocessed_emails = email_preprocessor.preprocess_emails(data)
-
-    # with open("data/preprocessed_emails_json_val_data.json", "w", encoding="utf-8") as file:
-    #     json.dump(preprocessed_emails, file, indent=4)
-
-    # For training logic
-
-    # training_data = list()
-
-    # for email in preprocessed_emails:
-
-    #     if email['body'] and not('HTML' in email['body']):
-    #         training_data.append(email)
