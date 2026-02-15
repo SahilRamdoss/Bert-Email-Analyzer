@@ -64,40 +64,42 @@ class EmailExtractor:
             q="is:unread"
         ).execute()
 
+        message_ids = [m["id"] for m in results.get("messages", [])]
         user_email = self._get_gmail_account_email()
-
-        messages = results.get("messages", [])
-
         emails_data = []
 
-        for msg in messages:
-            msg_data = service.users().messages().get(
-                userId="me", id=msg["id"], format="full"
-            ).execute()
+        def batch_callback(request_id, response, exception):
+            if exception:
+                return
 
-            headers = msg_data["payload"]["headers"]
-            
-            id = msg["id"]
-            subject = next((h["value"] for h in headers if h["name"] == "Subject"), None)
-            sender = next((h["value"] for h in headers if h["name"] == "From"), None)
-            receiver = next((h["value"] for h in headers if h["name"] == "To"), None)
-            date = next((h["value"] for h in headers if h["name"] == "Date"), None)
-            cc = next((h["value"] for h in headers if h["name"] == "Cc"), None)
-            body = self._extract_body(msg_data["payload"])
-            
-            emails_data.append(
-                {
-                    "id": id,
-                    "user": user_email,
-                    "subject": subject,
-                    "sender": sender,
-                    "receiver": receiver,
-                    "cc": cc, 
-                    "date": date,
-                    "body": body
-                }
-            )
+            headers = response["payload"]["headers"]
 
-        return {
-            "emails": emails_data,
-        }
+            emails_data.append({
+                "id": request_id,
+                "user": user_email,
+                "subject": next((h["value"] for h in headers if h["name"] == "Subject"), None),
+                "sender": next((h["value"] for h in headers if h["name"] == "From"), None),
+                "receiver": next((h["value"] for h in headers if h["name"] == "To"), None),
+                "cc": next((h["value"] for h in headers if h["name"] == "Cc"), None),
+                "date": next((h["value"] for h in headers if h["name"] == "Date"), None),
+                "body": self._extract_body(response["payload"])
+            })
+
+        BATCH_SIZE = 50
+
+        for i in range(0, len(message_ids), BATCH_SIZE):
+            batch = service.new_batch_http_request(callback=batch_callback)
+
+            for msg_id in message_ids[i:i + BATCH_SIZE]:
+                batch.add(
+                    service.users().messages().get(
+                        userId="me",
+                        id=msg_id,
+                        format="full"
+                    ),
+                    request_id=msg_id
+                )
+
+            batch.execute()
+
+        return {"emails": emails_data}
