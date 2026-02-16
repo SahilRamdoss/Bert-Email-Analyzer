@@ -71,6 +71,11 @@ class EmailPreprocessor:
                 if soup.body:
                     email["body"]["html"] = soup.body.decode_contents()
 
+            if email["body"]["text"] is None:
+                soup = BeautifulSoup(email["body"]["html"], "html.parser")
+
+                email["body"]["text"] = soup.get_text()
+
         return emails
 
     def _html_cleanup(self, emails):     
