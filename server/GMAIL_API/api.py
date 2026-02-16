@@ -45,6 +45,9 @@ def main():
     # Get the unread emails from the user's inbox
     raw_emails = (email_extractor.get_unread_emails())["emails"]
 
+    if (len(raw_emails) == 0):
+        return list()
+
     end = time.perf_counter()
 
     print(f"\nTook {end - start:.3f} seconds to load emails")
