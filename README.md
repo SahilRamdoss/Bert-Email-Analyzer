@@ -1,6 +1,20 @@
-# Setting up and running the project
+# Deberta-V3-bas Email Urgency Analyzer
 
-## Setting up and running Frontend
+## Key Acheivements
+
+- Fine-tuned a deberta-v3-base model to detect email urgency, achieving 98% F1-score.
+- Designed a custom email pre-processing pipeline to clean emails before feeding to AI model.
+- Created RESTful APIs to integrate AI model with Gmail API and frontend.
+
+## Summary
+
+An AI Email Urgency Analyzer that pulls your emails from your Gmail Account and re-orders them based on urgency.
+
+The urgency allocated to each email depends on a wide range of factors such as context, puntuation use, tone of voice, specific keywords, emotional responses, time limits, consequences, legal implications, financial loss and other urgency cues.
+
+## Setting up and running the project
+
+### Setting up and running Frontend
 
 The frontend has been setup using React using the Vite build tool. Make sure you have NodeJS installed on your device.
 
@@ -18,7 +32,7 @@ To run the frontend, execute the line of code below:
 
 > npm run dev
 
-## Setting up and running the Backend
+### Setting up and running the Backend
 
 Open the server folder in a separate VS code window.
 
@@ -47,9 +61,9 @@ To run the backend, execute the line of code below:
 
 ---
 
-# My Learning Journey
+## My Learning Journey
 
-## Introduction
+### Introduction
 
 The system is not *general intelligence*, *reasoning* or *autonomous decision-making*.
 
@@ -70,7 +84,7 @@ The **sliding context window** technique in NLP involves analyzing text by consi
 - I love chocolate
 - but not cookies
 
-### Signal vs Noise in Emails
+#### Signal vs Noise in Emails
 
 When feeding emails in the model, we must make sure to extract maximum meaning in the minimum number of words possible. Long emails hurt. We will try to create a function that outputs one clean string per email.
 
@@ -93,7 +107,7 @@ Text normalization is important as it:
 - Improves statistical reliability
 - Prevents models from learning noise
 
-## My Pipeline for Pre-processing
+### My Pipeline for Pre-processing
 
 This is the pipeline that will be implemented to prepare the data to be fed to the model. We will concentrate on text data from the emails as these usually carry the most weight in determining the urgency of an email.
 
@@ -107,7 +121,7 @@ This is the pipeline that will be implemented to prepare the data to be fed to t
 
 This is done so as to reduce noise and the number of tokens being used. After these steps, we have (mostly) clean text to feed to our transformer for analysis.
 
-## Training Data and Validation data
+### Training Data and Validation data
 
 For the training and validation data, the Enron dataset from Kaggle was used along with some AI generated emails. A random sample of 3393 emails was selected and converted to JSON, before being cleaned by the pre-processing pipeline. These emails were first labelled with an "urgency" field each. The urgency values were as follows:
 
@@ -121,13 +135,13 @@ The emails for training the model were of corporate nature, ranging from tech an
 
 Cases of false positives and edge cases were also included in both the training data and validation data to better train the AI (for example, cases that may seem as urgency 2 if we rely strictly on urgency cues such as punctuation, but which should be classified as urgency 1 if the email is read and understood properly).
 
-## The AI model
+### The AI model
 
 Instead of creating an LLM from scratch, the objective was to fine-tune the **google-bert/bert-base-uncased** model using the HuggingFace ecosystem. Hence, we focused on transfer learning to create our model. This required understanding multiple ML concepts such as the training and testing loops, tensors, overfitting, underfitting, loss functions, gradient descent, backpropagation, hyperparameters, weight decay,etc... . Familiarity with the HuggingFace ecosystem and PyTorch was also needed. To further understand the inner mechanisms of transformers, the Deep Learning playlist of 3Blue1Brown is highly recommended as well as the HuggingFace LLM course.
 
 After training the model via the GPU on Google Colab, we reached an accuracy of 98% which was considered acceptable to be used for our email analyser program.
 
-## Connection to the GMAIL account and backend completion
+### Connection to the GMAIL account and backend completion
 
 Once the model was trained and saved on Google Colab, we then saved and loaded it into our project.
 
@@ -137,7 +151,7 @@ Code to fetch unread emails from our GMAIL account was written. The emails were 
 
 *FastAPI* was used as the backend framework, to allow for API calls from the frontend.
 
-## Frontend connection + HTML emails handling
+### Frontend connection + HTML emails handling
 
 Finally, the frontend is created and connected to the backend to fetch the emails. However, a clear distinction had to be made between text emails and html emails. HTML emails have to maintain their format and styling when displayed on the frontend. For that purpose, the *DOMPurify* library had to be used in the frontend, in conjuction with *BeatifulSoup* in the backend.
 
