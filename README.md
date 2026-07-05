@@ -1,67 +1,385 @@
-# Deberta-V3-bas Email Urgency Analyzer
+# AI Email Urgency Analyzer
 
-## Key Acheivements
+An end-to-end Natural Language Processing (NLP) system that analyzes emails from a Gmail inbox and automatically prioritizes them by urgency using a fine-tuned Transformer model.
 
-- Fine-tuned a deberta-v3-base model to detect email urgency, achieving 98% F1-score.
-- Designed a custom email pre-processing pipeline to clean emails before feeding to AI model.
-- Created RESTful APIs to integrate AI model with Gmail API and frontend.
+The system combines:
 
-## Summary
+- A fine-tuned **DeBERTa-v3-base** transformer model
+- A custom email preprocessing pipeline
+- A FastAPI backend
+- Gmail API integration
+- A React frontend
 
-An AI Email Urgency Analyzer that pulls your emails from your Gmail Account and re-orders them based on urgency.
-
-The urgency allocated to each email depends on a wide range of factors such as context, puntuation use, tone of voice, specific keywords, emotional responses, time limits, consequences, legal implications, financial loss and other urgency cues.
-
-## Setting up and running the project
-
-### Setting up and running Frontend
-
-The frontend has been setup using React using the Vite build tool. Make sure you have NodeJS installed on your device.
-
-Open the client folder in a seperate VS code window.
-
-Run the lines of code below to install the necessary dependencies:
-
-> npm install dompurify axios react-tooltip tailwindcss @tailwindcss/vite
-
-For routing, run the line:
-
-> npm install react-router-dom
-
-To run the frontend, execute the line of code below:
-
-> npm run dev
-
-### Setting up and running the Backend
-
-Open the server folder in a separate VS code window.
-
-Set up PyTorch on your device following the official documentation (https://pytorch.org/get-started/locally/). 
-
-Then run the line of code below to install the remaining dependencies:
-
-> pip install -r requirements.txt
-
-> [!NOTE]
-> The trained AI model itself is not included in the repository. Feel free to train and use your own models if you like to test it!
-
-To run the backend, execute the line of code below:
-
-> fastapi dev GMAIL_API/api.py
-
-> [!NOTE]
-> Make sure your GMAIL account enables its GMAIL API on the Google Cloud console website.
-> The website contains the necessary steps to enable this.
->
-> Once done, run the line of code below to connect to your inbox and create your token:
->
-> ```bash
-> python gmail_auth.py
-> ```
+The goal is to reduce information overload by automatically identifying which emails require immediate attention.
 
 ---
 
-## My Learning Journey
+## Features
+
+- 📧 Fetch emails directly from Gmail
+- 🧠 AI-powered urgency detection
+- 📊 Classify emails into multiple urgency levels
+- 🧹 Advanced email preprocessing pipeline
+- ⚡ Batch inference for improved performance
+- 🔄 Automatic email prioritization
+- 🌐 RESTful API architecture
+- 🎨 Modern React frontend
+
+---
+
+## Results
+
+| Metric | Score |
+|---------|--------|
+| Accuracy | 98% |
+| F1 Score | 98% |
+| Model | DeBERTa-v3-base |
+| Framework | PyTorch + HuggingFace |
+
+---
+
+## Key Technical Achievements
+
+### Transformer Fine-Tuning
+
+- Fine-tuned a DeBERTa-v3-base transformer model
+- Achieved **98% F1-score**
+- Implemented transfer learning using the HuggingFace ecosystem
+- Optimized training and validation pipelines
+
+---
+
+### Email Preprocessing Pipeline
+
+Designed a custom preprocessing pipeline to maximize semantic signal while minimizing noise.
+
+Pipeline stages include:
+
+- HTML to text conversion
+- Unicode repair
+- Text normalization
+- Email thread removal
+- Signature removal
+- Disclaimer removal
+- URL normalization
+- Character normalization
+
+---
+
+### Backend Engineering
+
+Developed RESTful APIs using FastAPI to:
+
+- Authenticate with Gmail
+- Retrieve emails
+- Normalize email formats
+- Perform batch inference
+- Return ranked email priorities
+
+---
+
+## Tech Stack
+
+### Machine Learning
+
+- PyTorch
+- HuggingFace Transformers
+- DeBERTa-v3-base
+
+### Backend
+
+- FastAPI
+- Gmail API
+- BeautifulSoup
+
+### Frontend
+
+- React
+- Vite
+- TailwindCSS
+- DOMPurify
+
+### NLP Libraries
+
+- html2text
+- ftfy
+- email-reply-parser
+- regex
+- unicodedata
+
+---
+
+## Installation
+
+### Frontend
+
+Navigate to the frontend directory:
+
+```bash
+cd client
+```
+
+Install dependencies:
+
+```bash
+npm install
+npm install react-router-dom
+```
+
+Run the frontend:
+
+```bash
+npm run dev
+```
+
+---
+
+### Backend
+
+Navigate to the backend directory:
+
+```bash
+cd server
+```
+
+Install PyTorch following the official documentation:
+
+https://pytorch.org/get-started/locally/
+
+Install remaining dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the backend:
+
+```bash
+fastapi dev GMAIL_API/api.py
+```
+
+---
+
+## Gmail Authentication
+
+Enable the Gmail API in the Google Cloud Console.
+
+Then authenticate your Gmail account:
+
+```bash
+python gmail_auth.py
+```
+
+This will generate the token required for accessing your inbox.
+
+---
+
+## Model Availability
+
+> [!NOTE]
+> The trained model weights are not included in this repository.
+>
+> Users are free to train their own models and load them into the application.
+
+---
+
+# Engineering Notes
+
+---
+
+## Why Email Urgency Detection is an NLP Problem
+
+This project is fundamentally a supervised Natural Language Processing classification problem.
+
+The objective is not to perform reasoning or general intelligence, but rather statistical pattern recognition over text.
+
+The primary challenge is converting natural language into numerical representations while preserving semantic meaning.
+
+---
+
+## Embeddings
+
+Traditional keyword matching is insufficient because language contains:
+
+- Synonyms
+- Paraphrases
+- Implicit meanings
+- Contextual dependencies
+
+Instead, modern NLP systems use embeddings.
+
+An embedding is a mapping:
+
+```math
+Text \rightarrow \mathbb{R}^n
+```
+
+where semantically similar texts occupy nearby positions in vector space.
+
+For example:
+
+```
+"urgent"
+"critical"
+"immediate"
+```
+
+will have similar vector representations.
+
+---
+
+## Signal vs Noise
+
+Email data contains substantial noise:
+
+- Signatures
+- Legal disclaimers
+- Previous email chains
+- HTML formatting
+- URLs
+- Encoding issues
+
+Reducing this noise improves:
+
+- Statistical reliability
+- Generalization
+- Token efficiency
+- Model performance
+
+---
+
+## Email Preprocessing Pipeline
+
+The preprocessing pipeline consists of:
+
+| Step | Tool |
+|------|------|
+| HTML → Text | html2text |
+| Unicode Repair | ftfy |
+| Unicode Normalization | unicodedata |
+| Remove Email Threads | email-reply-parser |
+| Remove Signatures | regex |
+| Normalize URLs | regex |
+| Normalize Emails | regex |
+| Collapse Repeated Characters | regex |
+
+---
+
+## Training Dataset
+
+Training data consisted of:
+
+- Enron email dataset
+- AI-generated emails
+- Corporate emails
+- Legal emails
+- Consulting emails
+- Technology sector emails
+
+A dataset of **3393 labeled emails** was created.
+
+Urgency labels:
+
+| Label | Value |
+|--------|--------|
+| Low | 0 |
+| Medium | 1 |
+| High | 2 |
+
+Edge cases and false positives were deliberately included to improve model robustness.
+
+---
+
+## Model Development
+
+Rather than training a language model from scratch, transfer learning was used.
+
+The project involved:
+
+- Transformer fine-tuning
+- PyTorch training loops
+- Tensor operations
+- Gradient descent
+- Backpropagation
+- Loss functions
+- Weight decay
+- Regularization
+- Hyperparameter tuning
+- Validation strategies
+
+Training was performed using Google Colab GPUs.
+
+---
+
+## Backend Pipeline
+
+```text
+Fetch Gmail Emails
+         │
+         ▼
+Normalize JSON Schema
+         │
+         ▼
+Preprocess Emails
+         │
+         ▼
+Batch Model Inference
+         │
+         ▼
+Assign Urgency Scores
+         │
+         ▼
+Sort Emails
+         │
+         ▼
+Return Results
+```
+
+---
+
+## Frontend
+
+The frontend was developed using:
+
+- React
+- Vite
+- TailwindCSS
+
+HTML emails are sanitized using DOMPurify while preserving formatting and styling.
+
+---
+
+## Learning Outcomes
+
+This project provided practical experience with:
+
+- Natural Language Processing
+- Transformer architectures
+- Transfer learning
+- HuggingFace ecosystem
+- PyTorch
+- Text preprocessing
+- FastAPI
+- Gmail API integration
+- React development
+- Model deployment pipelines
+
+---
+
+## Future Improvements
+
+- Multi-label classification
+- Priority explanations
+- Active learning
+- User-specific personalization
+- RAG-based urgency explanations
+- Email summarization
+- Calendar integration
+- Outlook support
+
+---
+
+# My Learning Journey (For personal notes)
 
 ### Introduction
 
